@@ -3,7 +3,9 @@ import CheckoutButton from '@/components/CheckoutButton';
 import { TextEffect } from '@/components/core/text-effect';
 import React from 'react';
 import { motion } from 'framer-motion';
-// This app's name is Cardify, an AI flashcards creator that will help you study, memorize, and learn faster. It can be used by students, teachers, and professionals.
+import { EmailButton, Subscribe } from '@/components/EmailButton';
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 const Home = () => {
 	return (
@@ -21,19 +23,19 @@ const Home = () => {
 					initial={{ opacity: 0, y: 50 }}
 					animate={{ opacity: 1 }}
 					transition={{ delay: 0.5, y: 0 }}
-					className="text-center text-sm md:text-2xl"
+					className="text-center text-sm md:text-2xl mb-10"
 				>
 					There is an easier way to <b>study, memorize, and learn faster</b>. <br /> Cardify is a cutting edge flashcards creator that will
 					help you achieve your goals.
 					{/* <CheckoutButton /> */}
 				</motion.p>
-
 				{/* add waitlist form here, Please use shadcn components */}
+                <Subscribe />
 			</div>
-
 			{/* add phone graphic or such */}
 		</div>
 	);
 };
+
 
 export default Home;
