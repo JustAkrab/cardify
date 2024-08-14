@@ -1,7 +1,12 @@
+import CheckoutButton from '@/components/CheckoutButton';
 import React from 'react';
 
 const Home = () => {
-	return <div>Home</div>;
+	return (
+		<div>
+			<CheckoutButton />
+		</div>
+	);
 };
 
 export default Home;
