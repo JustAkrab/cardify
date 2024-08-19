@@ -13,6 +13,8 @@ import {
 import {ElementType, useState} from 'react';
 import Link from 'next/link';
 import { classNames } from '@/lib/utils';
+import {DocumentTextIcon} from "@heroicons/react/16/solid";
+import {ClipboardListIcon, CogIcon} from "lucide-react";
 
 interface INavigation {
     name: string,
@@ -22,18 +24,12 @@ interface INavigation {
 }
 
 const navigation: INavigation[] = [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-    { name: 'Team', href: '#', icon: UsersIcon, current: false },
-    { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-    { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-    { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-    { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-];
-
-const teams = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
+    { name: 'Home', href: '/dashboard', icon: HomeIcon, current: true },
+    { name: 'Create Flash Cards', href: '/dashboard/create', icon: DocumentTextIcon, current: false },
+    { name: 'Manage Flash Cards', href: '/dashboard/manage', icon: ClipboardListIcon, current: false },
+    { name: 'Review Flash Cards', href: '/dashboard/review', icon: CalendarIcon, current: false },
+    { name: 'Subscription', href: '/dashboard/subscription', icon: UsersIcon, current: false },
+    { name: 'Profile', href: '/dashboard/profile', icon: CogIcon, current: false },
 ];
 
 export function Sidebar() {
@@ -89,27 +85,6 @@ export function Sidebar() {
                                             ))}
                                         </ul>
                                     </li>
-                                    <li>
-                                        <div className="text-xs font-semibold leading-6 text-indigo-200">Your teams</div>
-                                        <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                            {teams.map((team) => (
-                                                <li key={team.name}>
-                                                    <Link
-                                                        href={team.href}
-                                                        className={classNames(
-                                                            team.current ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
-                                                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
-                                                        )}
-                                                    >
-                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                              {team.initial}
-                            </span>
-                                                        <span className="truncate">{team.name}</span>
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -144,27 +119,6 @@ export function Sidebar() {
                                                     )}
                                                 />
                                                 {item.name}
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
-                            <li>
-                                <div className="text-xs font-semibold leading-6 text-indigo-200">Your teams</div>
-                                <ul role="list" className="-mx-2 mt-2 space-y-1">
-                                    {teams.map((team) => (
-                                        <li key={team.name}>
-                                            <Link
-                                                href={team.href}
-                                                className={classNames(
-                                                    team.current ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
-                                                    'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
-                                                )}
-                                            >
-                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                          {team.initial}
-                        </span>
-                                                <span className="truncate">{team.name}</span>
                                             </Link>
                                         </li>
                                     ))}
