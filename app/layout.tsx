@@ -21,11 +21,7 @@ export default function RootLayout({
 	return (
 		<html className="h-full bg-white" lang="en">
 			<body className={`${inter.className} h-full`}>
-				<ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-					<Navbar />
-					<Toaster position="bottom-center" richColors />
-					{children}
-				</ThemeProvider>
+				{children}
 			</body>
 		</html>
 	);
