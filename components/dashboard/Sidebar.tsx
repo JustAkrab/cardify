@@ -3,37 +3,44 @@
 import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
 import {
     Bars3Icon,
-    CalendarIcon, ChartPieIcon,
-    DocumentDuplicateIcon,
-    FolderIcon,
+    CalendarIcon,
     HomeIcon,
     UsersIcon,
     XMarkIcon
 } from '@heroicons/react/24/outline';
 import {ElementType, useState} from 'react';
-import Link from 'next/link';
 import { classNames } from '@/lib/utils';
 import {DocumentTextIcon} from "@heroicons/react/16/solid";
 import {ClipboardListIcon, CogIcon} from "lucide-react";
+import Link from "next/link";
 
 interface INavigation {
     name: string,
-    href: string,
+    section: string, // Updated to section for dynamic rendering
     icon: ElementType,
     current: boolean
 }
 
 const navigation: INavigation[] = [
-    { name: 'Home', href: '/dashboard', icon: HomeIcon, current: true },
-    { name: 'Create Flash Cards', href: '/dashboard/create', icon: DocumentTextIcon, current: false },
-    { name: 'Manage Flash Cards', href: '/dashboard/manage', icon: ClipboardListIcon, current: false },
-    { name: 'Review Flash Cards', href: '/dashboard/review', icon: CalendarIcon, current: false },
-    { name: 'Subscription', href: '/dashboard/subscription', icon: UsersIcon, current: false },
-    { name: 'Profile', href: '/dashboard/profile', icon: CogIcon, current: false },
+    { name: 'Home', section: 'dashboard', icon: HomeIcon, current: true },
+    { name: 'Create Flash Cards', section: 'create', icon: DocumentTextIcon, current: false },
+    { name: 'Manage Flash Cards', section: 'manage', icon: ClipboardListIcon, current: false },
+    { name: 'Review Flash Cards', section: 'review', icon: CalendarIcon, current: false },
+    { name: 'Subscription', section: 'subscription', icon: UsersIcon, current: false },
+    { name: 'Profile', section: 'profile', icon: CogIcon, current: false },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+    onSelect: (section: string) => void; // Pass selected section to parent component
+}
+
+export function Sidebar({ onSelect }: SidebarProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const handleSectionClick = (section: string) => {
+        onSelect(section);
+        setSidebarOpen(false);
+    };
 
     return (
         <>
@@ -65,8 +72,8 @@ export function Sidebar() {
                                         <ul role="list" className="-mx-2 space-y-1">
                                             {navigation.map((item) => (
                                                 <li key={item.name}>
-                                                    <Link
-                                                        href={item.href}
+                                                    <button
+                                                        onClick={() => handleSectionClick(item.section)}
                                                         className={classNames(
                                                             item.current ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
                                                             'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
@@ -80,7 +87,7 @@ export function Sidebar() {
                                                             )}
                                                         />
                                                         {item.name}
-                                                    </Link>
+                                                    </button>
                                                 </li>
                                             ))}
                                         </ul>
@@ -104,8 +111,8 @@ export function Sidebar() {
                                 <ul role="list" className="-mx-2 space-y-1">
                                     {navigation.map((item) => (
                                         <li key={item.name}>
-                                            <Link
-                                                href={item.href}
+                                            <button
+                                                onClick={() => handleSectionClick(item.section)}
                                                 className={classNames(
                                                     item.current ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:bg-indigo-700 hover:text-white',
                                                     'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
@@ -119,7 +126,7 @@ export function Sidebar() {
                                                     )}
                                                 />
                                                 {item.name}
-                                            </Link>
+                                            </button>
                                         </li>
                                     ))}
                                 </ul>
