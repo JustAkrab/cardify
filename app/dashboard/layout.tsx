@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { ReactNode } from "react";
+import { Toaster } from "sonner";
 
 export default function DashLayout({
   children,
@@ -9,7 +10,10 @@ export default function DashLayout({
   return (
     <div>
       <Sidebar />
-      <div className="pl-72 pt-12 w-full min-h-screen">{children}</div>
+      <Toaster richColors />
+      <div className="ml-72 pt-12 w-full min-h-screen max-w-7xl mx-auto">
+        {children}
+      </div>
     </div>
   );
 }
