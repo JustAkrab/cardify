@@ -1,19 +1,23 @@
-import { Sidebar } from "@/components/dashboard/Sidebar";
-import { ReactNode } from "react";
-import { Toaster } from "sonner";
+import { Sidebar } from '@/components/dashboard/Sidebar';
+import { createClient } from '@/utils/supabase/server';
+import { ReactNode } from 'react';
+import { Toaster } from 'sonner';
 
-export default function DashLayout({
-  children,
+export default async function DashLayout({
+	children,
 }: Readonly<{
-  children: ReactNode;
+	children: ReactNode;
 }>) {
-  return (
-    <div>
-      <Sidebar />
-      <Toaster richColors />
-      <div className="ml-72 pt-12 w-full min-h-screen max-w-7xl mx-auto">
-        {children}
-      </div>
-    </div>
-  );
+	const supabase = createClient();
+	const {
+		data: { user },
+		error,
+	} = await supabase.auth.getUser();
+	return (
+		<div>
+			<Sidebar user={user} />
+			<Toaster richColors />
+			<div className="lg:pl-72 py-12 w-full max-w-7xl mx-auto">{children}</div>
+		</div>
+	);
 }
