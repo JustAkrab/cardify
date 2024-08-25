@@ -1,4 +1,4 @@
-import { Sidebar } from '@/components/dashboard/Sidebar';
+import { Sidebar } from '@/components/Sidebar';
 import { createClient } from '@/utils/supabase/server';
 import { ReactNode } from 'react';
 import { Toaster } from 'sonner';
