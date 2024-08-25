@@ -12,9 +12,9 @@ import Image from 'next/image';
 
 const navigation = [
 	{ name: 'Dashboard', section: '/', icon: HomeIcon },
-	{ name: 'Create Flash Cards', section: '/create', icon: DocumentTextIcon },
-	{ name: 'Manage Flash Cards', section: '/manage', icon: ClipboardListIcon },
-	{ name: 'Review Flash Cards', section: '/review', icon: CalendarIcon },
+	{ name: 'Create', section: '/create', icon: DocumentTextIcon },
+	{ name: 'Manage', section: '/manage', icon: ClipboardListIcon },
+	{ name: 'Review', section: '/review', icon: CalendarIcon },
 	{ name: 'Subscription', section: '/subscription', icon: UsersIcon },
 	{ name: 'Profile', section: '/profile', icon: CogIcon },
 ];
@@ -34,7 +34,7 @@ export function Sidebar({ user }: { user: User | null }) {
 				<div className="relative z-50 lg:hidden">
 					<div className="fixed inset-0 bg-gray-600 bg-opacity-75" />
 					<div className="fixed inset-0 flex z-50">
-						<div className="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-600">
+						<div className="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-900">
 							<div className="absolute top-0 right-0 p-2">
 								<button
 									type="button"
@@ -67,7 +67,7 @@ export function Sidebar({ user }: { user: User | null }) {
 			</Dialog>
 
 			{/* Desktop Sidebar */}
-			<div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:bg-indigo-600">
+			<div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:bg-indigo-900">
 				<nav className="flex-1 px-2 py-4 overflow-y-auto">
 					<ul className="space-y-1">
 						{navigation.map((item) => (

@@ -14,8 +14,17 @@ const Youtube = () => {
 		const form = event.currentTarget;
 		const formData = new FormData(form);
 		const text = formData.get('text') as string;
+		const newUrl = new URL(text);
+		// get search params
+		const searchParams = newUrl.searchParams;
+		const id = searchParams.get('v');
+		if (!id) {
+			toast.error('Invalid URL');
+			return;
+		}
+
 		const promise = new Promise(async (resolve, reject) => {
-			const generated: FlashcardDeck = await flashcardsFromYoutube(text);
+			const generated: FlashcardDeck = await flashcardsFromYoutube(id);
 			if (generated) {
 				resolve('Generated!');
 			} else {
@@ -27,7 +36,7 @@ const Youtube = () => {
 		toast.promise(promise, {
 			loading: 'Generating...',
 			success: 'Generated!',
-			error: 'Failed to generate',
+			error: 'Failed to generate, video does not have a transcript',
 		});
 	};
 	return (

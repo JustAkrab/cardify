@@ -35,8 +35,22 @@ export default async function DashboardOverview() {
 		.limit(5);
 
 	return (
-		<>
+		<div className="w-full">
 			<div>
+				<h1 className="text-4xl font-bold">Hi, {user?.user_metadata.full_name}</h1>
+
+				<div className="mt-6 flex space-x-4">
+					<Link href={'/dashboard/create'}>
+						<button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+							Create New Deck
+						</button>
+					</Link>
+					<Link href={'/dashboard/review'}>
+						<button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+							Review Decks
+						</button>
+					</Link>
+				</div>
 				<dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
 					{/* {stats &&stats.map((item) => (
 						<>
@@ -78,13 +92,13 @@ export default async function DashboardOverview() {
 			</div>
 
 			<h2 className="mt-10 text-xl font-semibold">Recently Added Decks</h2>
-			<ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+			<ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
 				{decks && decks.length > 0 ? (
 					decks.map((card) => (
 						<li key={card.id}>
 							<Link
 								href={`/dashboard/review/${card.id}`}
-								className="w-full bg-white rounded-lg p-5 aspect-video fc items-start border-2 border-neutral-200 transition-colors hover:bg-neutral-200 hover:border-indigo-600"
+								className="w-full bg-white rounded-lg p-5 h-full justify-start fc items-start border-2 border-neutral-200 transition-colors hover:bg-neutral-200 hover:border-indigo-600"
 							>
 								<h3 className="text-lg font-bold">{card.name}</h3>
 								<p className="text-sm">{card.description}</p>
@@ -95,19 +109,6 @@ export default async function DashboardOverview() {
 					<li>No flash cards found.</li>
 				)}
 			</ul>
-
-			<div className="mt-6 flex space-x-4">
-				<Link href={'/dashboard/create'}>
-					<button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-						Create New Flash Card
-					</button>
-				</Link>
-				<Link href={'/dashboard/review'}>
-					<button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-						Review Decks
-					</button>
-				</Link>
-			</div>
-		</>
+		</div>
 	);
 }

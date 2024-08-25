@@ -54,14 +54,12 @@ export const OCR = async (url: string) => {
 	return data;
 };
 
-export const flashcardsFromYoutube = async (url: string) => {
+export const flashcardsFromYoutube = async (id: string) => {
 	// fetch transcript from youtube video ytdlp-core
 	// strip url to get video id
-	const videoId = url.split('v=')[1];
 
-	console.log(videoId);
-
-	const info = await ytdl.getInfo(videoId);
+	const info = await ytdl.getInfo(id);
+	if (!info.player_response.captions) return null;
 	const transcript = info.player_response.captions.playerCaptionsTracklistRenderer.captionTracks[0].baseUrl;
 	console.log(transcript);
 
