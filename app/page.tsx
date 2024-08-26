@@ -102,7 +102,6 @@ const Home = () => {
           <Subscribe />
         </div>
         <AppleCardsCarouselDemo />
-        <Pricing />
       </div>
     </ThemeProvider>
   );
