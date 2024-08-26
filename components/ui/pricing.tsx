@@ -1,15 +1,18 @@
-'use client';
+"use client"
+
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { classNames } from '@/lib/utils';
 import { useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
+import { getStripe } from '@/utils/stripe/client';
+import { checkoutWithStripe } from '@/utils/stripe/server';
+import { getErrorRedirect } from '@/utils/errorUtils';
 
 const tiers = [
 	{
 		name: 'Free',
 		id: 'tier-hobby',
-		href: '#',
 		priceMonthly: '$0',
 		description: 'Basic features for getting started.',
 		features: ['Manual flashcards', 'Unlimited Decks', 'Unlimited Cards', 'Basic analytics'],
@@ -18,7 +21,7 @@ const tiers = [
 	{
 		name: 'Pro',
 		id: 'tier-growth',
-		href: '#',
+		priceId: '',	// PriceId required from Vihaan
 		priceMonthly: '$1',
 		description: 'All the features you need to seamlessly create your flashcards.',
 		features: [
@@ -37,20 +40,22 @@ export function Pricing() {
 	const [priceIdLoading, setPriceIdLoading] = useState<string>();
 	const supabase = createClient();
 	const router = useRouter();
-	const handleStripeCheckout = async (price) => {
+	const currentPath = usePathname();
+
+	const handleStripeCheckout = async (tier: any) => {
 		const {
 			data: { user },
 			error,
 		} = await supabase.auth.getUser();
 
-		setPriceIdLoading(price.id);
+		setPriceIdLoading(tier.priceId);
 
 		if (!user) {
 			setPriceIdLoading(undefined);
-			return router.push('/signin/signup');
+			return router.push('/login');
 		}
 
-		const { errorRedirect, sessionId } = await checkoutWithStripe(price, currentPath);
+		const { errorRedirect, sessionId } = await checkoutWithStripe({ id: tier.priceId }, currentPath);
 
 		if (errorRedirect) {
 			setPriceIdLoading(undefined);
@@ -65,10 +70,11 @@ export function Pricing() {
 		}
 
 		const stripe = await getStripe();
-		stripe?.redirectToCheckout({ sessionId });
+		await stripe?.redirectToCheckout({ sessionId });
 
 		setPriceIdLoading(undefined);
 	};
+
 	return (
 		<div className="bg-white py-24 sm:py-32">
 			<div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -121,9 +127,9 @@ export function Pricing() {
 									))}
 								</ul>
 							</div>
-							<a
-								href={tier.href}
-								aria-describedby={tier.id}
+							<button
+								onClick={() => handleStripeCheckout(tier)}
+								disabled={!!(tier.priceId && priceIdLoading === tier.priceId)}
 								className={classNames(
 									tier.mostPopular
 										? 'bg-indigo-600 text-white shadow-sm hover:bg-indigo-500'
@@ -131,8 +137,8 @@ export function Pricing() {
 									'mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
 								)}
 							>
-								Get Started
-							</a>
+								{tier.priceId && priceIdLoading === tier.priceId ? 'Processing...' : 'Get Started'}
+							</button>
 						</div>
 					))}
 				</div>
